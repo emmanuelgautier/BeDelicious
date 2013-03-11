@@ -92,6 +92,8 @@ var remindermeAlarm;
 
 function alarm()
 {
+    if(pref.delay < 2) pref.delay = 2;
+
     var delay = pref.delay;
     
     checkStateAlarm = timer.setInterval(function(){
