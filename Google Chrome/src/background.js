@@ -105,7 +105,7 @@ var opening = webkitNotifications.createNotification(
 var time = webkitNotifications.createNotification(
 	'food.png',
 	'L\'heure passe !',
-	'Il va être dans bientôt l\'heure, vous avez commandé ?'
+	'il va bientôt être l\'heure, vous avez commandé ?'
 );
 
 var checkStateAlarm;
@@ -161,5 +161,6 @@ function reminderMe()
 	});
 }
 
+time.show();
 checkState();
 alarm();

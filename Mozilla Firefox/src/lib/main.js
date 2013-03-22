@@ -140,7 +140,7 @@ function reminderMe()
     }
 
     reminderAlarm = timer.setTimeout(function(){
-        if(state) notifications.notify({ title: "L'heure passe !", text: "Il va être dans bientôt l'heure, vous avez commandé ?", iconURL: icon });
+        if(state) notifications.notify({ title: "L'heure passe !", text: "il va bientôt être l'heure, vous avez commandé ?", iconURL: icon });
     }, delayinms);
 }
 
