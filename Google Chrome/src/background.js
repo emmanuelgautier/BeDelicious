@@ -161,6 +161,5 @@ function reminderMe()
 	});
 }
 
-time.show();
 checkState();
 alarm();
