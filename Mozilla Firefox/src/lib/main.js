@@ -37,7 +37,7 @@ function noticeConnectionLost()
 function checkState()
 {
     Request({
-      url: url+"services/status/get",
+      url: url + "services/status/get",
       onComplete: function (response) {
         if(response.status == 200)
         {
