@@ -30,13 +30,12 @@ function noticeConnectionLost()
 function checkState()
 {
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url+"services/status/get", true);
+	xhr.open("GET", url + "services/status/get", true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			if(xhr.status == 200 && xhr.responseText != ""){
-				// permet d'évaluer un script dangereux et detecte les erreurs de syntaxes
-				var obj = eval("(" + xhr.responseText + ")");
-				
+				var obj = JSON.parse( xhr.responseText );
+
 				if(obj.shop_status == "open")
 				{
 					//ça ne sera à rien de reexuté le script si état n'a pas changé
@@ -55,31 +54,31 @@ function checkState()
 				else
 				{
 					setIconClose();
-				}	
+				}
 			}else {
-				console.log("Code HTTP réponse : "+xhr.status);
+				console.log("Code HTTP réponse : " + xhr.status);
 				connectionLost();
 			}
-			
+
 		if(loading)
-			loading=false;			
+			loading=false;
 		}
 	};
 	xhr.onerror = function() { connectionLost();  console.log("Erreur de requête : "+xhr.error); };
 	xhr.send(null);
-	
+
 	if(localStorage.reminderme && !remindermeActivated) reminderMe();
 }
 
 function open()
 {
-	state=true;
+	state = true;
 	setIconOpen();
 }
 
 function close()
 {
-	state=false;
+	state = false;
 	setIconClose();
 }
 
@@ -143,18 +142,18 @@ function reminderMe()
 
 	var minutes = localStorage.minutes;
 	var hour	= localStorage.hour;
-	
+
 	var Currenthour 	= (new Date()).getHours();
-	var Currentminutes	= (new Date()).getMinutes();	
-	
+	var Currentminutes	= (new Date()).getMinutes();
+
 	var delayinminutes = (hour - Currenthour) * 60 + (minutes - Currentminutes);
-	
+
 	if(delayinminutes < 0)
 	{
 		var minutesinday = 24 * 60;
 		delayinminutes = minutesinday - delayinminutes;
 	}
-	
+
 	remindermeAlarm = chrome.alarms.create('reminderme', {delayInMinutes: delayinminutes});
 	chrome.alarms.onAlarm.addListener(function(remindermeAlarm) {
 		if(state) time.show();
