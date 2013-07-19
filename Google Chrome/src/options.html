@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8" />
 		<title>Options de BeDelicious</title>
 		<link rel="stylesheet" media="screen" href="option.css" />
 		<link rel="stylesheet" media="screen" href="bootstrap.css" />
 	</head>
-	
+
 	<body>
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
@@ -20,45 +21,45 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span12">
 					<h1>Option BeDelicious</h1>
-    
+
 					<span id="status"></span><br />
-			
+
 					<form action="javascript:void(0)" id="form_options">
-						<label>Mettre à jour tout les  : </label><input type="number" id="delay" min="2" max="30" value="" /> <b>min</b>
-				
+						<label>Mettre Ã  jour tout les  : </label><input type="number" id="delay" min="2" max="30" value="" /> <b>min</b>
+
 						<br /><br />
-				
-						<p>En activant l'option "pense bête", vous pouvez demandez, dans le cas où le snack est ouvert, à ce que l'on vous avertisse à l'heure de votre choix</p>
-						<input type="checkbox" id="reminder" /><label>Activer l'option "pense bête"</label><br />
-				
+
+						<p>En activant l'option "pense bÃªte", vous pouvez demandez, dans le cas oÃ¹ le snack est ouvert, Ã  ce que l'on vous avertisse Ã  l'heure de votre choix</p>
+						<input type="checkbox" id="reminder" /><label>Activer l'option "pense bÃªte"</label><br />
+
 						<div id="reminderTime">
 							<label>Heure du rappel : </label><input type="number" id="reminderHour" min="0" max="23" /> <b>h</b> <input type="number" id="reminderMinutes" min="0" max="59" /> <b>min</b>
 						</div>
-				
+
 						<input type="submit" id="submit" value="enregistrer" />
 					</form>
 				</div><!--/span-->
 			</div><!--/row-->
 		</div>
-		
+
 		<footer class="footer">
 			<div class="container">
-				
+
 				<ul class="footer-links">
 					<li><a href="mailto:contact@bedelicious.fr">Contact</a></li>
-					<li class="muted">·</li>
+					<li class="muted">-</li>
 					<li><a href="http://nantes.supinfo.com">Supinfo Nantes</a></li>
 				</ul>
-				
+
 				<p>&copy; <a href="http://nantes.supinfo.com/">Labo Web Supinfo Nantes</a> - 2013</p>
 			</div>
 		</footer>
-		
+
 		<script type="text/javascript" src="options.js"></script>
 	</body>
 </html>
