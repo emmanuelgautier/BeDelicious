@@ -1,16 +1,15 @@
-var icons	 	= Array('open', 'close');
-var i			= 0; //l'index du tableau des icons
-var loading		= true;
-var state		= false; //défini l'état du snack, true si ouvert et false si fermé
-var popupOpened = false; //défini si la popup s'est déjà ouverte ou non cela évite d'en avoir plein qui reste
+var icons	= ['open', 'close'],
+i			= 0, //l'index du tableau des icons
+loading		= true,
+state		= false, //défini l'état du snack, true si ouvert et false si fermé
+popupOpened = false, //défini si la popup s'est déjà ouverte ou non cela évite d'en avoir plein qui reste
 
-var remindermeActivated = false;
+remindermeActivated = false,
 
-var url = "http://food.bedelicious.fr/";
+checkStateAlarm,
+remindermeAlarm,
 
-//on regarde si une valeur par défaut a été donné pour delay
-if(localStorage.delay == undefined || parseInt(localStorage.delay) < 1)
-	localStorage.delay = 5;
+url = "http://food.bedelicious.fr/";
 
 function setIconOpen()
 {
@@ -32,42 +31,40 @@ function checkState()
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", url + "services/status/get", true);
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4) {
-			if(xhr.status == 200 && xhr.responseText != ""){
+		if (xhr.readyState === 4) {
+			if(xhr.status === 200 && xhr.responseText !== ""){
 				var obj = JSON.parse( xhr.responseText );
 
-				if(obj.shop_status == "open")
-				{
+				if(obj.shop_status === "open"){
 					//ça ne sera à rien de reexuté le script si état n'a pas changé
-					if(!state)
-					{
+					if(!state){
 						if(!loading){
-							opening.show();					
+							opening.show();
 						}
 						open();
 					}
 				}
-				else if(state)
-				{
+				else if(state){
 					close();
 				}
-				else
-				{
+				else{
 					setIconClose();
 				}
-			}else {
-				console.log("Code HTTP réponse : " + xhr.status);
+			} else {
 				connectionLost();
 			}
 
-		if(loading)
-			loading=false;
+		if(loading){
+			loading = false;
+		}
 		}
 	};
 	xhr.onerror = function() { connectionLost();  console.log("Erreur de requête : "+xhr.error); };
 	xhr.send(null);
 
-	if(localStorage.reminderme && !remindermeActivated) reminderMe();
+	if(localStorage.reminderme && !remindermeActivated) {
+	    reminderMe();
+	}
 }
 
 function open()
@@ -107,18 +104,15 @@ var time = webkitNotifications.createNotification(
 	'il va bientôt être l\'heure, vous avez commandé ?'
 );
 
-var checkStateAlarm;
-var remindermeAlarm;
-
 //permet de définir l'alarme pour la vérification de l'ouverture du BDE
 function alarm()
 {
 	var delay = localStorage.delay;
-	checkStateAlarm = chrome.alarms.create('check', {periodInMinutes: parseInt(localStorage.delay)}); //on défini l'alarme et on l'initialise 
+	checkStateAlarm = chrome.alarms.create('check', {periodInMinutes: (+localStorage.delay)}); //on défini l'alarme et on l'initialise 
 	chrome.alarms.onAlarm.addListener(function(checkStateAlarm) {
 		checkState();
 		//dans le cas où le délai a été changé on redifini l'alarme
-		if(delay != localStorage.delay){
+		if(delay !== localStorage.delay){
 			delay = localStorage.delay;
 			resetAlarm();
 		}
@@ -133,31 +127,40 @@ function cancelAlarm()
 function resetAlarm()
 {
 	//on redéfini la variable contenant l'alarme
-	checkStateAlarm = chrome.alarms.create('check', {periodInMinutes: parseInt(localStorage.delay)});
+	checkStateAlarm = chrome.alarms.create('check', {periodInMinutes: (+localStorage.delay)});
 }
 
 function reminderMe()
 {
 	remindermeActivated = true;
 
-	var minutes = localStorage.minutes;
-	var hour	= localStorage.hour;
+	var minutes = localStorage.minutes,
+	hour	= localStorage.hour,
 
-	var Currenthour 	= (new Date()).getHours();
-	var Currentminutes	= (new Date()).getMinutes();
+	currenthour	= (new Date()).getHours(),
+	currentminutes	= (new Date()).getMinutes(),
 
-	var delayinminutes = (hour - Currenthour) * 60 + (minutes - Currentminutes);
+	delayinminutes = (hour - currenthour) * 60 + (minutes - currentminutes),
+	
+	minutesinday;
 
 	if(delayinminutes < 0)
 	{
-		var minutesinday = 24 * 60;
+	    minutesinday = 24 * 60;
 		delayinminutes = minutesinday - delayinminutes;
 	}
 
-	remindermeAlarm = chrome.alarms.create('reminderme', {delayInMinutes: delayinminutes});
+	remindermeAlarm = chrome.alarms.create('reminderme', { delayInMinutes: delayinminutes });
 	chrome.alarms.onAlarm.addListener(function(remindermeAlarm) {
-		if(state) time.show();
+		if(state) {
+		    time.show();
+		}
 	});
+}
+
+//on regarde si une valeur par défaut a été donné pour delay
+if(!localStorage.delay || (+localStorage.delay) < 1){
+    localStorage.delay = 5;   
 }
 
 checkState();
