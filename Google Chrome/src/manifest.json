@@ -6,21 +6,20 @@
 	"description": "Commander votre menu via l'extension BeDelicous",
 	"version": "1.0",
 	"options_page": "options.html",
-	
+
 	"background": { "scripts": ["background.js"] },
 	"permissions": [
-		"alarms", 
+		"alarms",
 		"tabs",
 		"notifications",
 		"http://food.bedelicious.fr/*"
 	],
 	"optional_permissions": [ "tabs", "http://food.bedelicious.fr/*" ],
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  
+
 	"browser_action": {
 		"default_icon": "open.png"
 	},
-	
+
 	"web_accessible_resources": [
 		"food.png"
 	]
